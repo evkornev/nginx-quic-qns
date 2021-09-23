@@ -63,10 +63,15 @@ COPY --from=builder /etc/nginx /etc/nginx
 RUN useradd nginx
 RUN mkdir -p /var/cache/nginx /var/log/nginx/
 
-COPY nginx.conf nginx.conf.retry nginx.conf.http3 nginx.conf.nodebug /etc/nginx/
+COPY nginx.conf /etc/nginx/
 
 COPY run_endpoint.sh .
+COPY create_signed_cert.sh .
+RUN wget google.com
+COPY index.html /www/
+
 RUN chmod +x run_endpoint.sh
+RUN chmod +x create_signed_cert.sh
 
 EXPOSE 443/udp
 EXPOSE 443/tcp
